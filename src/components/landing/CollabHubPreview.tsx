@@ -28,9 +28,12 @@ const recentCollabs = [
 
 export const CollabHubPreview = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative bg-white">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-80 h-80 rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, var(--gray-300) 0%, var(--gray-200) 50%, transparent 70%)' }} />
+        <div className="absolute bottom-20 left-10 w-64 h-64 rounded-full blur-2xl opacity-15" style={{ background: 'var(--gray-400)' }} />
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -41,13 +44,16 @@ export const CollabHubPreview = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white border border-gray-300 text-sm font-medium mb-4 shadow-sm"
+                  style={{ color: 'var(--gray-600)' }}>
               ✨ New Feature
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-6"
+                style={{ color: '#000000' }}>
               The <span className="gradient-text-teal">Collab Hub</span>
             </h2>
-            <p className="text-muted-foreground text-lg mb-8 max-w-lg">
+            <p className="text-lg mb-8 max-w-lg"
+               style={{ color: 'rgba(0, 0, 0, 0.7)' }}>
               A revolutionary space where service providers connect, collaborate, and grow together. 
               Find sub-contractors or offer your expertise to fellow pros.
             </p>
@@ -63,12 +69,12 @@ export const CollabHubPreview = () => {
                   transition={{ delay: index * 0.1 }}
                   className="flex items-start gap-4"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
-                    <feature.icon className="w-5 h-5 text-accent" />
+                  <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0">
+                    <feature.icon className="w-5 h-5" style={{ color: 'var(--gray-600)' }} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">{feature.title}</h4>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    <h4 className="font-semibold" style={{ color: '#000000' }}>{feature.title}</h4>
+                    <p className="text-sm" style={{ color: 'rgba(0, 0, 0, 0.6)' }}>{feature.description}</p>
                   </div>
                 </motion.div>
               ))}
@@ -88,9 +94,9 @@ export const CollabHubPreview = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative"
           >
-            <div className="glass-card rounded-3xl p-6 sm:p-8">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-300 shadow-lg">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-display font-bold text-xl">Recent Opportunities</h3>
+                <h3 className="font-display font-bold text-xl" style={{ color: '#000000' }}>Recent Opportunities</h3>
                 <span className="px-3 py-1 rounded-full bg-green-500/10 text-green-600 text-xs font-medium flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                   Live
@@ -106,24 +112,24 @@ export const CollabHubPreview = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 + index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
-                    className="p-4 rounded-2xl bg-muted/50 border border-border/50 hover:border-accent/30 transition-all cursor-pointer"
+                    className="p-4 rounded-2xl bg-gray-50 border border-gray-300 hover:border-gray-400 transition-all cursor-pointer"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-foreground">{collab.provider}</span>
-                      <span className="text-sm font-medium text-accent">{collab.budget}</span>
+                      <span className="font-semibold" style={{ color: '#000000' }}>{collab.provider}</span>
+                      <span className="text-sm font-medium" style={{ color: 'var(--gray-600)' }}>{collab.budget}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CheckCircle2 className="w-4 h-4 text-accent" />
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
+                      <CheckCircle2 className="w-4 h-4" style={{ color: 'var(--gray-600)' }} />
                       Looking for: {collab.needs}
                     </div>
                   </motion.div>
                 ))}
               </div>
 
-              <div className="mt-6 pt-6 border-t border-border">
+              <div className="mt-6 pt-6 border-t border-gray-300">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">245 active opportunities</span>
-                  <button className="text-accent font-medium hover:underline flex items-center gap-1">
+                  <span style={{ color: 'rgba(0, 0, 0, 0.6)' }}>245 active opportunities</span>
+                  <button className="font-medium hover:underline flex items-center gap-1" style={{ color: 'var(--gray-600)' }}>
                     View all
                     <ArrowRight className="w-3 h-3" />
                   </button>
@@ -135,7 +141,8 @@ export const CollabHubPreview = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gradient-to-br from-accent/20 to-transparent blur-2xl"
+              className="absolute -top-6 -right-6 w-24 h-24 rounded-full blur-2xl"
+              style={{ background: 'var(--gray-400)' }}
             />
           </motion.div>
         </div>

@@ -5,8 +5,14 @@ import { Link } from "react-router-dom";
 
 export const CTASection = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-24 relative bg-white">
+      {/* Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 right-20 w-96 h-96 rounded-full blur-3xl opacity-25" style={{ background: 'radial-gradient(circle, var(--gray-300) 0%, var(--gray-200) 50%, transparent 70%)' }} />
+        <div className="absolute bottom-10 left-10 w-80 h-80 rounded-full blur-3xl opacity-20" style={{ background: 'var(--gray-400)' }} />
+        <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full blur-2xl opacity-15" style={{ background: 'var(--gray-300)' }} />
+      </div>
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -15,10 +21,10 @@ export const CTASection = () => {
           className="relative rounded-3xl overflow-hidden"
         >
           {/* Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary via-indigo-medium to-primary" />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800" />
           <div className="absolute inset-0 opacity-30">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(45,212,191,0.3),transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(45,212,191,0.2),transparent_50%)]" />
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 30% 20%, rgba(45, 212, 191, 0.3), transparent 50%)' }} />
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 70% 80%, rgba(45, 212, 191, 0.2), transparent 50%)' }} />
           </div>
 
           {/* Content */}
@@ -30,7 +36,7 @@ export const CTASection = () => {
               transition={{ delay: 0.1 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-8"
             >
-              <Sparkles className="w-4 h-4 text-accent" />
+              <Sparkles className="w-4 h-4" style={{ color: 'var(--gray-300)' }} />
               <span className="text-sm font-medium text-white/90">
                 Join 50,000+ happy customers
               </span>
@@ -86,12 +92,14 @@ export const CTASection = () => {
           <motion.div
             animate={{ y: [-5, 5, -5] }}
             transition={{ duration: 4, repeat: Infinity }}
-            className="absolute top-10 left-10 w-16 h-16 rounded-full bg-accent/20 blur-xl"
+            className="absolute top-10 left-10 w-16 h-16 rounded-full blur-xl"
+            style={{ background: 'var(--gray-600)' }}
           />
           <motion.div
             animate={{ y: [5, -5, 5] }}
             transition={{ duration: 5, repeat: Infinity }}
-            className="absolute bottom-10 right-10 w-24 h-24 rounded-full bg-teal-light/20 blur-xl"
+            className="absolute bottom-10 right-10 w-24 h-24 rounded-full blur-xl"
+            style={{ background: 'var(--gray-500)' }}
           />
         </motion.div>
       </div>

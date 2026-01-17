@@ -35,8 +35,13 @@ const brands = [
 
 export const SocialProof = () => {
   return (
-    <section className="py-24 bg-gradient-to-b from-transparent via-muted/30 to-transparent">
-      <div className="container mx-auto px-4">
+    <section className="py-24 relative bg-white">
+      {/* Subtle overlay for depth */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-20 w-72 h-72 rounded-full blur-3xl opacity-15" style={{ background: 'radial-gradient(circle, var(--gray-300) 0%, var(--gray-200) 50%, transparent 70%)' }} />
+        <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full blur-2xl opacity-10" style={{ background: 'var(--gray-400)' }} />
+      </div>
+      <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -45,13 +50,16 @@ export const SocialProof = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-white border border-gray-300 text-sm font-medium mb-4 shadow-sm"
+                style={{ color: 'var(--gray-600)' }}>
             Testimonials
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
+              style={{ color: '#000000' }}>
             Loved by <span className="gradient-text">Thousands</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="max-w-2xl mx-auto"
+             style={{ color: 'rgba(0, 0, 0, 0.7)' }}>
             See what our customers have to say about their experience
           </p>
         </motion.div>
@@ -66,10 +74,11 @@ export const SocialProof = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -5 }}
-              className="glass-card rounded-3xl p-6 relative overflow-hidden"
+              className="bg-white rounded-3xl p-6 relative overflow-hidden border border-gray-300 shadow-lg"
             >
               {/* Quote Icon */}
-              <Quote className="absolute top-4 right-4 w-8 h-8 text-accent/20" />
+              <Quote className="absolute top-4 right-4 w-8 h-8"
+                     style={{ color: 'var(--gray-400)' }} />
 
               {/* Rating */}
               <div className="flex gap-1 mb-4">
@@ -79,7 +88,8 @@ export const SocialProof = () => {
               </div>
 
               {/* Content */}
-              <p className="text-foreground mb-6 leading-relaxed">
+              <p className="mb-6 leading-relaxed"
+                 style={{ color: '#000000' }}>
                 "{testimonial.content}"
               </p>
 
@@ -88,13 +98,16 @@ export const SocialProof = () => {
                 <img
                   src={testimonial.image}
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-accent/20"
+                  className="w-12 h-12 rounded-full object-cover border-2"
+                  style={{ borderColor: '#000000' }}
                 />
                 <div>
-                  <div className="font-semibold text-foreground">
+                  <div className="font-semibold"
+                       style={{ color: '#000000' }}>
                     {testimonial.name}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm"
+                       style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
                     {testimonial.role}
                   </div>
                 </div>
@@ -111,7 +124,8 @@ export const SocialProof = () => {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <p className="text-sm text-muted-foreground mb-6">
+          <p className="text-sm mb-6"
+             style={{ color: 'rgba(14, 14, 16, 0.6)' }}>
             Trusted by professionals who've worked with
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
@@ -122,7 +136,8 @@ export const SocialProof = () => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-xl font-display font-bold text-muted-foreground/50 hover:text-muted-foreground transition-colors"
+                className="text-xl font-display font-bold hover:scale-105 transition-transform cursor-pointer"
+                style={{ color: 'rgba(0, 0, 0, 0.5)' }}
               >
                 {brand}
               </motion.div>

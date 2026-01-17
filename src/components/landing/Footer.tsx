@@ -35,31 +35,36 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground pt-16 pb-8">
+    <footer className="bg-gray-50 pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                   style={{ background: 'var(--gray-800)' }}>
                 <Home className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display font-bold text-xl">HomeServe</span>
+              <span className="font-display font-bold text-xl" style={{ color: '#000000' }}>HomeServe</span>
             </Link>
-            <p className="text-primary-foreground/70 mb-6 max-w-sm">
+            <p className="mb-6 max-w-sm"
+               style={{ color: 'rgba(0, 0, 0, 0.7)' }}>
               Connecting homeowners with trusted professionals for all home service needs. 
               Quality work, guaranteed satisfaction.
             </p>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-primary-foreground/70">
+              <div className="flex items-center gap-3"
+                   style={{ color: 'rgba(0, 0, 0, 0.7)' }}>
                 <Mail className="w-4 h-4" />
                 <span className="text-sm">support@homeserve.com</span>
               </div>
-              <div className="flex items-center gap-3 text-primary-foreground/70">
+              <div className="flex items-center gap-3"
+                   style={{ color: 'rgba(0, 0, 0, 0.7)' }}>
                 <Phone className="w-4 h-4" />
                 <span className="text-sm">1-800-HOMESERVE</span>
               </div>
-              <div className="flex items-center gap-3 text-primary-foreground/70">
+              <div className="flex items-center gap-3"
+                   style={{ color: 'rgba(0, 0, 0, 0.7)' }}>
                 <MapPin className="w-4 h-4" />
                 <span className="text-sm">Available Nationwide</span>
               </div>
@@ -68,13 +73,14 @@ export const Footer = () => {
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold mb-4">Services</h4>
+            <h4 className="font-semibold mb-4" style={{ color: '#000000' }}>Services</h4>
             <ul className="space-y-2">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm hover:text-gray-600 transition-colors"
+                    style={{ color: 'rgba(0, 0, 0, 0.7)' }}
                   >
                     {link.name}
                   </Link>
@@ -84,13 +90,14 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-semibold mb-4" style={{ color: '#000000' }}>Company</h4>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm hover:text-gray-600 transition-colors"
+                    style={{ color: 'rgba(0, 0, 0, 0.7)' }}
                   >
                     {link.name}
                   </Link>
@@ -100,13 +107,14 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Support</h4>
+            <h4 className="font-semibold mb-4" style={{ color: '#000000' }}>Support</h4>
             <ul className="space-y-2">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm hover:text-gray-600 transition-colors"
+                    style={{ color: 'rgba(0, 0, 0, 0.7)' }}
                   >
                     {link.name}
                   </Link>
@@ -117,8 +125,8 @@ export const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-primary-foreground/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-primary-foreground/60">
+        <div className="pt-8 border-t border-gray-300 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm" style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
             © 2024 HomeServe. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
@@ -128,7 +136,8 @@ export const Footer = () => {
                 href={social.href}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-accent transition-colors"
+                className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
+                style={{ color: '#000000' }}
                 aria-label={social.label}
               >
                 <social.icon className="w-4 h-4" />
