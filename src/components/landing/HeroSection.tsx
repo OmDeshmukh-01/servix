@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Search, Sparkles, Star, Shield, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 const stats = [
   { value: "100k+", label: "Happy Customers", icon: Star },
@@ -9,29 +9,30 @@ const stats = [
   { value: "24/7", label: "Support", icon: Clock },
 ];
 
+const heroTexts = [
+  "Your Home Deserves Expert Care",
+  "Smart Solutions for Modern Homes"
+];
+
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTextIndex((prevIndex) => (prevIndex + 1) % heroTexts.length);
+    }, 3000); // Change text every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-gray-100">
-      {/* Black Card Background */}
-      <div className="absolute inset-0 bg-black rounded-none"></div>
+      {/* White Border Container */}
+      <div className="absolute inset-4 sm:inset-8 lg:inset-12 bg-black border-4 border-white rounded-lg"></div>
       
-      {/* Decorative Gradient Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl opacity-10" style={{ background: 'radial-gradient(circle, var(--gray-300) 0%, var(--gray-200) 50%, transparent 70%)' }} />
-        <div className="absolute bottom-40 left-10 w-80 h-80 rounded-full blur-3xl opacity-5" style={{ background: 'var(--gray-400)' }} />
-        <div className="absolute top-60 left-1/4 w-64 h-64 rounded-full blur-2xl opacity-5" style={{ background: 'var(--gray-300)' }} />
-      </div>
-      
-      {/* Floating Elements */}
-      <motion.div
-        animate={{ y: [10, -10, 10] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-1/3 right-[15%] w-16 h-16 rounded-full bg-gray-200/20 backdrop-blur-xl border border-gray-300/30 hidden lg:block"
-      />
-      
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Content Container */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <motion.div
@@ -53,8 +54,26 @@ export const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-white"
           >
-            Your Home Deserves{" "}
-            <span className="gradient-text text-white">Expert Care</span>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentTextIndex}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="inline-block"
+              >
+                {currentTextIndex === 0 ? (
+                  <>
+                    Your Home Deserves <span className="gradient-text text-white">Expert Care</span>
+                  </>
+                ) : (
+                  <>
+                    Smart Solutions for <span className="gradient-text text-white">Modern Homes</span>
+                  </>
+                )}
+              </motion.span>
+            </AnimatePresence>
           </motion.h1>
 
           {/* Subheading */}
@@ -135,9 +154,6 @@ export const HeroSection = () => {
           </motion.div>
         </div>
       </div>
-
-      {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-transparent to-transparent" />
     </section>
   );
 };
