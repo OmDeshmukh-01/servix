@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const stats = [
-  { value: "50K+", label: "Happy Customers", icon: Star },
+  { value: "100k+", label: "Happy Customers", icon: Star },
   { value: "2000+", label: "Verified Pros", icon: Shield },
   { value: "24/7", label: "Support", icon: Clock },
 ];
@@ -19,11 +19,6 @@ export const HeroSection = () => {
       <div className="absolute inset-0 mesh-gradient" />
       
       {/* Floating Elements */}
-      <motion.div
-        animate={{ y: [-10, 10, -10] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 left-[10%] w-20 h-20 rounded-2xl bg-accent/20 backdrop-blur-xl border border-accent/30 hidden lg:block"
-      />
       <motion.div
         animate={{ y: [10, -10, 10] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
