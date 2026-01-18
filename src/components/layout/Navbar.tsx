@@ -55,13 +55,13 @@ export const Navbar = () => {
           {/* Auth Buttons - Desktop */}
           <div className="hidden md:flex items-center gap-3">
             <Link to="/login">
-              <Button variant="ghost" size="sm" className="gap-2" style={{ color: '#000000' }}>
+              <Button variant="outline" size="sm" className="gap-2">
                 <LogIn className="w-4 h-4" />
                 Sign In
               </Button>
             </Link>
             <Link to="/signup">
-              <Button variant="hero" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2">
                 <UserPlus className="w-4 h-4" />
                 Get Started
               </Button>
@@ -115,7 +115,7 @@ export const Navbar = () => {
                   </Button>
                 </Link>
                 <Link to="/signup" onClick={() => setIsOpen(false)}>
-                  <Button variant="hero" className="w-full gap-2">
+                  <Button variant="outline" className="w-full gap-2">
                     <UserPlus className="w-4 h-4" />
                     Get Started
                   </Button>
