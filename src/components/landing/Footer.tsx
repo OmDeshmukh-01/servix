@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Home, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FloatingDock, FloatingDockIcon } from "@/components/ui/FloatingDock";
 
 const footerLinks = {
   services: [
@@ -127,23 +128,21 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="pt-8 border-t border-gray-300 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm" style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
-            © 2024 HomeServe. All rights reserved.
+            © 2026 HomeServe. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
+          <FloatingDock className="bg-gray-100/80 backdrop-blur-sm border-gray-200/50">
             {socialLinks.map((social) => (
-              <motion.a
+              <a
                 key={social.label}
                 href={social.href}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
                 className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
                 style={{ color: '#000000' }}
                 aria-label={social.label}
               >
                 <social.icon className="w-4 h-4" />
-              </motion.a>
+              </a>
             ))}
-          </div>
+          </FloatingDock>
         </div>
       </div>
     </footer>

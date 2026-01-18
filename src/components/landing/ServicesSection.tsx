@@ -91,7 +91,7 @@ const itemVariants = {
 
 export const ServicesSection = () => {
   return (
-    <section className="py-24 relative bg-white">
+    <section className="py-16 relative bg-white">
       {/* Subtle overlay for depth */}
       <div className="absolute inset-0">
         <div className="absolute top-10 right-20 w-64 h-64 rounded-full blur-3xl opacity-20" style={{ background: 'radial-gradient(circle, var(--gray-300) 0%, var(--gray-200) 50%, transparent 70%)' }} />
