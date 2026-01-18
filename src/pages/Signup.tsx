@@ -15,7 +15,7 @@ import {
   Phone
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const steps = [
   { id: 1, title: "Role", description: "Choose your role" },
@@ -24,6 +24,7 @@ const steps = [
 ];
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<"user" | "provider" | null>(null);
@@ -34,6 +35,13 @@ const Signup = () => {
     password: "",
     location: "",
     specialty: "",
+  });
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    location: "",
   });
 
   const handleNext = () => {
@@ -46,54 +54,88 @@ const Signup = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleNext();
+    
+    // Validate form
+    const newErrors = {
+      name: formData.name.trim() ? "" : "Name is required",
+      email: formData.email.trim() && formData.email.includes("@") ? "" : "Valid email is required",
+      phone: formData.phone.trim() ? "" : "Phone is required",
+      password: formData.password.length >= 6 ? "" : "Password must be at least 6 characters",
+      location: role === "provider" && !formData.location.trim() ? "Location is required for providers" : "",
+    };
+    
+    setErrors(newErrors);
+    
+    // Check if there are any errors
+    const hasErrors = Object.values(newErrors).some(error => error !== "");
+    
+    if (!hasErrors) {
+      // Simulate account creation
+      const userData = { ...formData, role };
+      console.log("Creating account:", userData);
+      
+      // Store user data in localStorage for demo purposes
+      localStorage.setItem('user', JSON.stringify(userData));
+      
+      // Navigate to next step
+      handleNext();
+    }
+  };
+
+  const handleFinalNavigation = () => {
+    // Navigate based on role
+    if (role === "provider") {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Form */}
-      <div className="flex-1 flex flex-col justify-center px-8 sm:px-16 lg:px-24 py-12">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-md w-full mx-auto"
-        >
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 mb-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md mx-auto p-8"
+      >
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
               <Home className="w-5 h-5 text-white" />
             </div>
             <span className="font-display font-bold text-xl">HomeServe</span>
           </Link>
+        </div>
 
-          {/* Progress Steps */}
-          <div className="flex items-center gap-2 mb-8">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center gap-2">
+        {/* Progress Steps */}
+        <div className="flex items-center justify-center gap-2 mb-8">
+          {steps.map((step, index) => (
+            <div key={step.id} className="flex items-center gap-2">
+              <motion.div
+                initial={false}
+                animate={{
+                  backgroundColor: currentStep >= step.id ? "hsl(var(--accent))" : "hsl(var(--muted))",
+                }}
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  currentStep >= step.id ? "text-accent-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {currentStep > step.id ? <CheckCircle2 className="w-5 h-5" /> : step.id}
+              </motion.div>
+              {index < steps.length - 1 && (
                 <motion.div
                   initial={false}
                   animate={{
-                    backgroundColor: currentStep >= step.id ? "hsl(var(--accent))" : "hsl(var(--muted))",
+                    backgroundColor: currentStep > step.id ? "hsl(var(--accent))" : "hsl(var(--muted))",
                   }}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    currentStep >= step.id ? "text-accent-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {currentStep > step.id ? <CheckCircle2 className="w-5 h-5" /> : step.id}
-                </motion.div>
-                {index < steps.length - 1 && (
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      backgroundColor: currentStep > step.id ? "hsl(var(--accent))" : "hsl(var(--muted))",
-                    }}
-                    className="w-12 h-1 rounded-full"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+                  className="w-12 h-1 rounded-full"
+                />
+              )}
+            </div>
+          ))}
+        </div>
 
           <AnimatePresence mode="wait">
             {/* Step 1: Role Selection */}
@@ -104,6 +146,7 @@ const Signup = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
+                className="text-center"
               >
                 <h1 className="font-display text-3xl font-bold mb-2">Join HomeServe</h1>
                 <p className="text-muted-foreground mb-8">
@@ -187,10 +230,11 @@ const Signup = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
+                className="text-center"
               >
                 <button
                   onClick={handleBack}
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 mx-auto"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back
@@ -203,7 +247,7 @@ const Signup = () => {
                   Tell us a bit about yourself
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5 text-left">
                   {/* Name */}
                   <div>
                     <label className="block text-sm font-medium mb-2">Full Name</label>
@@ -214,9 +258,14 @@ const Signup = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Doe"
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                        className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent ${
+                          errors.name ? "border-red-500" : "border-border"
+                        }`}
                       />
                     </div>
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                    )}
                   </div>
 
                   {/* Email */}
@@ -229,9 +278,14 @@ const Signup = () => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                        className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent ${
+                          errors.email ? "border-red-500" : "border-border"
+                        }`}
                       />
                     </div>
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                    )}
                   </div>
 
                   {/* Phone */}
@@ -244,9 +298,14 @@ const Signup = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+1 (555) 123-4567"
-                        className="w-full pl-12 pr-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                        className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent ${
+                          errors.phone ? "border-red-500" : "border-border"
+                        }`}
                       />
                     </div>
+                    {errors.phone && (
+                      <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                    )}
                   </div>
 
                   {/* Location (for providers) */}
@@ -260,9 +319,14 @@ const Signup = () => {
                           value={formData.location}
                           onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                           placeholder="New York, NY"
-                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                          className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent ${
+                            errors.location ? "border-red-500" : "border-border"
+                          }`}
                         />
                       </div>
+                      {errors.location && (
+                        <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+                      )}
                     </div>
                   )}
 
@@ -276,7 +340,9 @@ const Signup = () => {
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         placeholder="Create a strong password"
-                        className="w-full pl-12 pr-12 py-3 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                        className={`w-full pl-12 pr-12 py-3 rounded-xl border bg-background focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent ${
+                          errors.password ? "border-red-500" : "border-border"
+                        }`}
                       />
                       <button
                         type="button"
@@ -286,6 +352,9 @@ const Signup = () => {
                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
                     </div>
+                    {errors.password && (
+                      <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                    )}
                   </div>
 
                   <Button type="submit" variant="hero" size="lg" className="w-full gap-2">
@@ -322,12 +391,15 @@ const Signup = () => {
                     : " Start exploring our services."}
                 </p>
 
-                <Link to={role === "provider" ? "/dashboard" : "/"}>
+                <button 
+                  onClick={handleFinalNavigation}
+                  className="w-full"
+                >
                   <Button variant="hero" size="lg" className="gap-2">
                     {role === "provider" ? "Set Up Profile" : "Explore Services"}
                     <ArrowRight className="w-4 h-4" />
                   </Button>
-                </Link>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -342,57 +414,6 @@ const Signup = () => {
             </p>
           )}
         </motion.div>
-      </div>
-
-      {/* Right Side - Visual */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="hidden lg:flex flex-1 bg-gradient-to-br from-accent via-teal-dark to-primary relative overflow-hidden"
-      >
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,rgba(255,255,255,0.3),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.2),transparent_50%)]" />
-        </div>
-
-        <div className="relative z-10 flex flex-col items-center justify-center p-12 text-white">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-center"
-          >
-            <h2 className="font-display text-4xl font-bold mb-4">
-              Join Our Community
-            </h2>
-            <p className="text-white/80 max-w-md">
-              {role === "provider"
-                ? "Access thousands of customers and grow your business with powerful tools and support."
-                : "Connect with verified professionals and get your home services done right, every time."}
-            </p>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-3 gap-8 mt-12"
-          >
-            {[
-              { value: "50K+", label: "Users" },
-              { value: "2000+", label: "Pros" },
-              { value: "4.9", label: "Rating" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="font-display text-3xl font-bold">{stat.value}</p>
-                <p className="text-white/70 text-sm">{stat.label}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </motion.div>
     </div>
   );
 };

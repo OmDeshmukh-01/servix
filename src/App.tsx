@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Services from "./pages/Services";
+import ServicesPage from "./pages/ServicesPage";
 import CollabHub from "./pages/CollabHub";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services-page" element={<ServicesPage />} />
           <Route path="/collab-hub" element={<CollabHub />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

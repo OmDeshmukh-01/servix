@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Sparkles, Star, Shield, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const stats = [
@@ -27,7 +28,7 @@ export const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-100">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-100 mt-6 sm:mt-4 lg:mt-6">
       {/* White Border Container */}
       <div className="absolute inset-4 sm:inset-8 lg:inset-12 bg-black border-4 border-white rounded-2xl"></div>
       
@@ -105,9 +106,11 @@ export const HeroSection = () => {
                   placeholder="What do you need help with?"
                 />
               </div>
+              <Link to="/services-page">
               <Button variant="hero" size="lg" className="sm:w-auto w-full">
                 Find Services
               </Button>
+            </Link>
             </div>
             <div className="flex flex-wrap justify-center gap-2 mt-4">
               {["Plumbing", "Cleaning", "Electrical", "Painting"].map((tag) => (
