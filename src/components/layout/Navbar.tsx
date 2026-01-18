@@ -18,10 +18,10 @@ export const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 px-4 py-3"
+      className="fixed top-0 left-0 right-0 z-50 px-4 py-1 bg-gray-100"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl px-6 py-3 flex items-center justify-between shadow-lg">
+        <div className="flex items-center justify-between px-6 py-3">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <motion.div
@@ -87,7 +87,7 @@ export const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden mt-2 bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl p-4 space-y-2 shadow-lg"
+              className="md:hidden mt-2 bg-white border border-gray-200 rounded-2xl p-4 space-y-2 shadow-lg"
             >
               {navLinks.map((link, index) => (
                 <motion.div

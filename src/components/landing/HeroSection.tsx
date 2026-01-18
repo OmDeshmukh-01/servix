@@ -27,9 +27,9 @@ export const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 bg-gray-100">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-100">
       {/* White Border Container */}
-      <div className="absolute inset-4 sm:inset-8 lg:inset-12 bg-black border-4 border-white rounded-lg"></div>
+      <div className="absolute inset-4 sm:inset-8 lg:inset-12 bg-black border-4 border-white rounded-2xl"></div>
       
       {/* Content Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
