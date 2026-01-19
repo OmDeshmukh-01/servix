@@ -62,45 +62,65 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate form
-    const newErrors = {
-      name: formData.name.trim() ? "" : "Name is required",
-      email: formData.email.trim() && formData.email.includes("@") ? "" : "Valid email is required",
-      phone: formData.phone.trim() ? "" : "Phone is required",
-      password: formData.password.length >= 6 ? "" : "Password must be at least 6 characters",
-      location: role === "provider" && !formData.location.trim() ? "Location is required for providers" : "",
-    };
-    
-    setErrors(newErrors);
-    
-    // Check if there are any errors
-    const hasErrors = Object.values(newErrors).some(error => error !== "");
-    
-    if (!hasErrors) {
-      setLoading(true);
-      
-      try {
-        // Call backend register API
-        const result = await register({ ...formData, role });
-        
-        if (result.success) {
-          console.log("Account created successfully:", result.data);
-          
-          // Navigate to next step immediately
-          handleNext();
-        } else {
-          setErrors(prev => ({ ...prev, general: result.error }));
-        }
-      } catch (error) {
-        console.error('Registration error:', error);
-        setErrors({ ...errors, general: 'Network error. Please try again.' });
-      } finally {
-        setLoading(false);
-      }
-    }
+  e.preventDefault();
+
+  // Validate form
+  const newErrors = {
+    name: formData.name.trim() ? "" : "Name is required",
+    email:
+      formData.email.trim() && formData.email.includes("@")
+        ? ""
+        : "Valid email is required",
+    phone: formData.phone.trim() ? "" : "Phone is required",
+    password:
+      formData.password.length >= 6
+        ? ""
+        : "Password must be at least 6 characters",
+    location:
+      role === "provider" && !formData.location.trim()
+        ? "Location is required for providers"
+        : "",
   };
+
+  setErrors(newErrors);
+
+  const hasErrors = Object.values(newErrors).some(
+    (error) => error !== ""
+  );
+
+  if (hasErrors) return;
+
+  setLoading(true);
+
+  try {
+    const payload = {
+      ...formData,
+      role,
+      location:
+        formData.location.trim() ||
+        (role === "user" ? "N/A" : formData.location),
+    };
+
+    const result = await register(payload);
+
+    if (result.success) {
+      handleNext();
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        general: result.error || "Registration failed",
+      }));
+    }
+  } catch (error) {
+    setErrors((prev) => ({
+      ...prev,
+      general: "Network error. Please try again.",
+    }));
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleFinalNavigation = () => {
     // Navigate based on role
