@@ -7,12 +7,12 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import ProviderDashboard from "./pages/ProviderDashboard";
 import Services from "./pages/Services";
 import ServicesPage from "./pages/ServicesPage";
 import CollabHub from "./pages/CollabHub";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "@/components/layout/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +30,15 @@ const App = () => (
             path="/dashboard" 
             element={
               <ProtectedRoute allowedRoles={['provider']}>
-                <ProviderDashboard />
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <Profile />
               </ProtectedRoute>
             } 
           />
@@ -51,7 +59,7 @@ const App = () => (
             } 
           />
           <Route 
-            path="/collabhub" 
+            path="/collab-hub" 
             element={
               <ProtectedRoute allowedRoles={['provider']}>
                 <CollabHub />

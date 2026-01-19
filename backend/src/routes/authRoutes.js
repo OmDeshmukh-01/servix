@@ -3,6 +3,7 @@ const router = express.Router();
 const { register, login, refreshToken, logout, getMe } = require('../controllers/authController');
 const { validateRegister, validateLogin } = require('../middleware/validation');
 const { validate } = require('../middleware/validation');
+const { authenticate } = require('../middleware/roleAuth');
 
 // Register user
 router.post('/register', validateRegister, register);
@@ -17,6 +18,6 @@ router.post('/refresh', refreshToken);
 router.post('/logout', logout);
 
 // Get current user
-router.get('/me', require('../middleware/auth').authenticate, getMe);
+router.get('/me', authenticate, getMe);
 
 module.exports = router;

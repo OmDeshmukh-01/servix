@@ -34,20 +34,6 @@ const validateRegister = [
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long'),
   
-  // Phone validation (optional)
-  body('phone')
-    .optional()
-    .trim()
-    .isMobilePhone()
-    .withMessage('Please provide a valid phone number'),
-  
-  // Location validation (optional, required for providers)
-  body('location')
-    .optional()
-    .trim()
-    .isLength({ min: 3, max: 100 })
-    .withMessage('Location must be between 3 and 100 characters'),
-  
   // Role validation (optional)
   body('role')
     .optional()

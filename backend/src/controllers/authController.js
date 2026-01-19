@@ -5,60 +5,51 @@ const { validationResult } = require('express-validator');
 // Register user
 const register = async (req, res) => {
   try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Validation failed',
-        errors: errors.array()
-      });
-    }
-
-    const { name, email, password, role = 'user' } = req.body;
+    const { name, email, password, role, phone, location } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'User with this email already exists'
+        message: 'User already exists with this email'
       });
     }
 
-    // Create new user
-    const user = new User({
+    // Create user
+    const user = await User.create({
       name,
       email,
       password,
-      role
+      role: role || 'user',
+      phone,
+      location
     });
 
-    await user.save();
-
-    // Generate tokens
+    // Generate token
     const { accessToken, refreshToken } = generateTokens(user._id);
 
+    // Send response
     res.status(201).json({
       success: true,
-      message: 'User registered successfully',
       data: {
         user: {
-          id: user._id,
+          _id: user._id,
           name: user.name,
           email: user.email,
-          role: user.role
+          role: user.role,
+          phone: user.phone,
+          location: user.location,
+          avatar: user.avatar
         },
         accessToken,
         refreshToken
       }
     });
   } catch (error) {
-    console.error('Registration error:', error);
     res.status(500).json({
       success: false,
-      message: 'Server error during registration',
-      error: error.message
+      message: error.message
     });
   }
 };
@@ -114,7 +105,9 @@ const login = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
-          role: user.role
+          role: user.role,
+          isVerified: user.isVerified,
+          rating: user.rating
         },
         accessToken
       }
