@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home, Wrench, Users, LogIn, UserPlus, User, LogOut, Circle, ChevronDown } from "lucide-react";
+import { Menu, X, Home, Wrench, Users, LogIn, UserPlus, User, LogOut, Circle, ChevronDown, Info, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getUser, logout, isAuthenticated, getUserRole } from "@/services/api";
 
 const navLinks = [
   { name: "Home", href: "/", icon: Home },
   { name: "Services", href: "/services", icon: Wrench },
   { name: "Collab Hub", href: "/collab-hub", icon: Users },
+  { name: "About Us", href: "/about", icon: Info },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 ];
 
 export const Navbar = () => {
@@ -16,6 +18,7 @@ export const Navbar = () => {
   const [user, setUser] = useState(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const currentUser = getUser();
@@ -29,16 +32,33 @@ export const Navbar = () => {
     navigate('/');
   };
 
+  // Check if current page is dashboard
+  const isDashboardPage = location.pathname === '/dashboard';
+  
+  // Check if current page is collab hub
+  const isCollabHubPage = location.pathname === '/collab-hub';
+  
+  // Check if current page is about us
+  const isAboutPage = location.pathname === '/about';
+  
+  // Check if logo should be disabled (non-clickable)
+  const shouldDisableLogo = isDashboardPage || isCollabHubPage || isAboutPage;
+
   // Filter nav links based on user role
   const getFilteredNavLinks = () => {
     if (!user) return navLinks;
     
     if (user.role === 'user') {
-      // Customers can see Home and Services only
-      return navLinks.filter(link => link.name === 'Home' || link.name === 'Services');
+      // Customers can see Home, Services, and About Us
+      return navLinks.filter(link => link.name === 'Home' || link.name === 'Services' || link.name === 'About Us');
     } else if (user.role === 'provider') {
-      // Providers can see Home and Collab Hub only
-      return navLinks.filter(link => link.name === 'Home' || link.name === 'Collab Hub');
+      // Providers can see Collab Hub, About Us, and Dashboard (when on Collab Hub or About Us)
+      if (isCollabHubPage || isAboutPage) {
+        return navLinks.filter(link => link.name === 'Collab Hub' || link.name === 'About Us' || link.name === 'Dashboard');
+      } else {
+        // Providers can see only Collab Hub and About Us (no Home)
+        return navLinks.filter(link => link.name === 'Collab Hub' || link.name === 'About Us');
+      }
     }
     
     return navLinks;
@@ -54,17 +74,31 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between px-6 py-3">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center"
-            >
-              <Home className="w-5 h-5 text-white" />
-            </motion.div>
-            <span className="font-display font-bold text-xl">
-              HomeServe
-            </span>
-          </Link>
+          {shouldDisableLogo ? (
+            <div className="flex items-center gap-2 cursor-default">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center"
+              >
+                <Home className="w-5 h-5 text-white" />
+              </motion.div>
+              <span className="font-display font-bold text-xl">
+                HomeServe
+              </span>
+            </div>
+          ) : (
+            <Link to="/" className="flex items-center gap-2">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center"
+              >
+                <Home className="w-5 h-5 text-white" />
+              </motion.div>
+              <span className="font-display font-bold text-xl">
+                HomeServe
+              </span>
+            </Link>
+          )}
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">

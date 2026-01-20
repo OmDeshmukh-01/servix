@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import ServicesPage from "./pages/ServicesPage";
 import CollabHub from "./pages/CollabHub";
 import Profile from "./pages/Profile";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
           <Route 
             path="/dashboard" 
             element={

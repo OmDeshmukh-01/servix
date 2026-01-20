@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
+import { getUser } from "@/services/api";
 
 const upcomingBookings = [
   {
@@ -76,6 +77,12 @@ const sidebarItems = [
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const currentUser = getUser();
+    setUser(currentUser);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,21 +98,8 @@ const Dashboard = () => {
           } bg-card border-r border-border p-4 transition-all duration-300 z-40 hidden lg:block`}
         >
           <div className="flex flex-col h-full">
-            {/* User Info */}
-            <div className={`flex items-center gap-3 p-3 rounded-xl bg-muted/50 mb-6 ${!sidebarOpen && "justify-center"}`}>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold">
-                JD
-              </div>
-              {sidebarOpen && (
-                <div className="flex-1">
-                  <p className="font-semibold text-sm">John Doe</p>
-                  <p className="text-xs text-muted-foreground">Premium Member</p>
-                </div>
-              )}
-            </div>
-
             {/* Nav Items */}
-            <nav className="flex-1 space-y-1">
+            <nav className="flex-1 space-y-1 mt-6">
               {sidebarItems.map((item) => (
                 <motion.button
                   key={item.label}
@@ -149,7 +143,9 @@ const Dashboard = () => {
             className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
           >
             <div>
-              <h1 className="font-display text-2xl sm:text-3xl font-bold">Welcome back, John! 👋</h1>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold">
+                Welcome back, {user?.name || 'User'}
+              </h1>
               <p className="text-muted-foreground">Here's what's happening with your home services</p>
             </div>
             <div className="flex items-center gap-3">
@@ -161,7 +157,7 @@ const Dashboard = () => {
               </Button>
               <Button variant="hero" className="gap-2">
                 <Search className="w-4 h-4" />
-                Book Service
+                Find Available Work
               </Button>
             </div>
           </motion.div>
